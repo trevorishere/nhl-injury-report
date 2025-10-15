@@ -1,1 +1,22 @@
-
+name: NHL Injuries → Notion (daily, puckpedia)
+on:
+  schedule:
+    - cron: '0 14 * * *'
+    - cron: '0 15 * * *'
+  workflow_dispatch:
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          TIMEZONE: ${{ vars.TIMEZONE || 'America/Los_Angeles' }}
+        run: python -m src.main
