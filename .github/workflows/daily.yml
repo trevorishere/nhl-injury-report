@@ -1,4 +1,4 @@
-name: NHL Injuries → Notion (daily, puckpedia)
+name: NHL Injuries → Notion (daily, puckpedia+)
 on:
   schedule:
     - cron: '0 14 * * *'
