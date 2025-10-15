@@ -4,7 +4,7 @@ import pytz
 from dotenv import load_dotenv
 
 from src.providers.csv_provider import CSVProvider
-from src.providers.puckpedia_provider import PuckPediaProvider
+from src.providers.puckpedia_plus_provider import PuckPediaPlusProvider
 from src.notion_updater import upsert_items
 
 def is_right_hour() -> bool:
@@ -13,12 +13,12 @@ def is_right_hour() -> bool:
     return now.hour == 7
 
 def get_provider():
-    kind = os.environ.get("DATA_PROVIDER", "puckpedia").lower()
+    kind = os.environ.get("DATA_PROVIDER", "puckpedia_plus").lower()
     if kind == "csv":
         csv_path = os.environ.get("CSV_PATH", "data/sample_injuries.csv")
         return CSVProvider(csv_path)
-    if kind == "puckpedia":
-        return PuckPediaProvider()
+    if kind in ("puckpedia", "puckpedia_plus"):
+        return PuckPediaPlusProvider()
     raise RuntimeError(f"Unknown DATA_PROVIDER: {kind}")
 
 def main():
